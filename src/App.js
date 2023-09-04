@@ -1,22 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [clickCount, setClickCount] = useState(0);
+
+  // Load the click count from localStorage on component mount
+  useEffect(() => {
+    const storedClickCount = localStorage.getItem('clickCount');
+    if (storedClickCount) {
+      setClickCount(parseInt(storedClickCount));
+    }
+  }, []);
+
+  // Update the click count and save to localStorage when the button is clicked
+  const handleButtonClick = () => {
+    const updatedClickCount = clickCount + 1;
+    setClickCount(updatedClickCount);
+    localStorage.setItem('clickCount', updatedClickCount.toString());
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Click Counter PWA</h1>
+        <p>Number of Clicks: {clickCount}</p>
+        <button onClick={handleButtonClick}>Click Me</button>
       </header>
     </div>
   );
